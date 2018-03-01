@@ -25,6 +25,7 @@ import java.lang.Thread;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.scene.control.ToggleButton;
 
 /**
  *
@@ -64,6 +65,8 @@ public class SortingsController implements Initializable
     
     public SelectionSort sorty = new SelectionSort();
     
+    public boolean click = false;
+    
     
     public void arraySizeBar_ValueChanged(MouseEvent event)
     {
@@ -71,20 +74,21 @@ public class SortingsController implements Initializable
         
         mod.set((int)Math.rint(sizeSlider.getValue()));
         mod.getUnsortedList();
-        
-        getRectangles();
     }
     public void sortBtn_Click()
     {
         setSortStrategy();
-        getRectangles();
-      
+        
+    }
+    public void test()
+    {
+        setSortStrategy();
     }
     public void resetBtn_Click()
     {
         sizeSlider.setValue(1);
         sizeText.setText(Double.toString(Math.rint(sizeSlider.getValue())));
-        getRectangles();
+        mod.reset((int)Math.rint(sizeSlider.getValue()));
     }
     
     public void setSortStrategy()
@@ -93,35 +97,47 @@ public class SortingsController implements Initializable
             sort.Sort(mod.getArray());
          else if(algorithmComboBox.getValue() == "Selection Sort")
             sorty.Sort(mod.getArray());
+         
     }
     
     public void getRectangles()
     {
         new Thread(()->{
-            Platform.runLater(()->{
-                viewPane.getChildren().clear();
+            while(true)
+            {
+                Platform.runLater(()->{
+                    viewPane.getChildren().clear();
         
-                for(int i = 1; i < (int)sizeSlider.getValue(); i++)
-                {
-                    Rectangle rect = new Rectangle();
+                    for(int i = 1; i < (int)sizeSlider.getValue(); i++)
+                    {
+                        Rectangle rect = new Rectangle();
             
-                    double w = viewPane.getWidth()/sizeSlider.getValue();
+                        double w = viewPane.getWidth()/sizeSlider.getValue();
             
-                    double h = mod.getArray()[i]*3;
+                        double h = mod.getArray()[i]*3;
             
-                    double x = w*i;
-                    double y = viewPane.getHeight() - mod.getArray()[i]*3;
+                        double x = w*i;
+                        double y = viewPane.getHeight() - mod.getArray()[i]*3;
             
-                    rect.setWidth(w);
-                    rect.setHeight(h);
+                        rect.setWidth(w);
+                        rect.setHeight(h);
             
-                    rect.setLayoutX(x);
-                    rect.setLayoutY(y);
+                        rect.setLayoutX(x);
+                        rect.setLayoutY(y);
             
-                    rect.setFill(RED);
-                    viewPane.getChildren().add(rect);
-                 }
-            });
+                        rect.setFill(RED);
+                        viewPane.getChildren().add(rect);
+                    }
+                
+                   
+            
+                });
+                try {
+                        Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                        Logger.getLogger(SortingsController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+            }
             
         }).start();
         
@@ -134,7 +150,7 @@ public class SortingsController implements Initializable
         algorithmComboBox.setItems(algorithmList);
         algorithmComboBox.setValue("Choose Algorithm");
         
-        
+        this.getRectangles();
     }
     
 }

@@ -7,6 +7,8 @@ package sortings;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.lang.Runnable;
+import java.lang.Thread;
 
 /**
  *
@@ -14,14 +16,14 @@ import java.util.logging.Logger;
  */
 public class SelectionSort implements SortingStrategy
 {
-    public int i,j;
-    boolean unsorted = true;
+    public int i,j, temp;
     
     @Override
     public void Sort(int[] array)
     {
        
         new Thread(()->{
+            
             for(j = 0; j < array.length - 1; j++)
             {
                 int min = j;
@@ -34,20 +36,20 @@ public class SelectionSort implements SortingStrategy
                 }
                 if(min != j)
                 {
+                    temp = array[min];
+                    array[min] = array[j];
+                    array[j] = temp;
                     try {
-                        int temp = array[min];
-                        array[min] = array[j];
-                        array[j] = temp;
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException ex)
                     {
                        
                     }
                 }
-                
+             
             }
         }).start();
-        unsorted = false;
+        
     }
     
 }

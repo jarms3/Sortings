@@ -114,10 +114,10 @@ public class SortingsController implements Initializable
             
                         double w = viewPane.getWidth()/sizeSlider.getValue();
             
-                        double h = mod.getArray()[i]*3;
+                        double h = mod.getArray()[i]*2;
             
                         double x = w*i;
-                        double y = viewPane.getHeight() - mod.getArray()[i]*3;
+                        double y = viewPane.getHeight() - mod.getArray()[i]*2;
             
                         rect.setWidth(w);
                         rect.setHeight(h);

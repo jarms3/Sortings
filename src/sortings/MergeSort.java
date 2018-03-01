@@ -18,12 +18,23 @@ public class MergeSort implements SortingStrategy
     @Override
     public void Sort(int[] array) 
     {
-        mergeSort(array, 0, array.length - 1);
+        new Thread(()->{
+            for(int i = 0; i < array.length; i++)
+            {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                   
+                }
+                mergeSort(array, 0, array.length - 1);
+            }  
+        
+        }).start();
     }
     void merge(int arr[], int l, int m, int r)
     {
-            
         int i, j, k;
+        int x = 0;
         int n1 = m - l + 1;
         int n2 =  r - m;
  
@@ -75,36 +86,27 @@ public class MergeSort implements SortingStrategy
            
         }
         
-       
-        
-        
         
     }
  
     void mergeSort(int arr[], int l, int r)
     {
-        
+        new Thread(()->{
+           
             if (l < r)
             {
+               
                 int m = (r+l)/2;
             
                 mergeSort(arr, l, m);
                 mergeSort(arr, m+1, r);
-               
-                merge(arr, l, m, r);
                  
-                new Thread(()->{
-                System.out.println("1");
-                 try {
-                    Thread.sleep(100);
-                    
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(MergeSort.class.getName()).log(Level.SEVERE, null, ex);
-                }
-               }).start();
+              
+                
+                merge(arr, l, m, r);
             }
         
-        
+         }).start();
     }
     
 }
